@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+/* Style under the light theme, e.g. light:hidden */
+@custom-variant light (&:where(.light, .light *));
+
+:root {
+  /* High-contrast monochrome: true black paper, white ink */
+  --paper: #000000;
+  --paper-warm: #101010;
+  --ink: #ffffff;
+  --ink-soft: #d6d6d6;
+  --ink-mute: #9c9c9c;
+  --ink-faint: #6b6b6b;
+  --rule: #2e2e2e;
+  --accent: #ffffff;
+  --accent-deep: #a8a8a8;
+  --accent-pale: #1d1d1d;
+  --grain: rgba(255, 255, 255, 0.04);
+  color-scheme: dark;
+}
+
+html.light {
+  /* Inverse: true white paper, black ink */
+  --paper: #ffffff;
+  --paper-warm: #f2f2f2;
+  --ink: #000000;
+  --ink-soft: #2e2e2e;
+  --ink-mute: #5c5c5c;
+  --ink-faint: #8f8f8f;
+  --rule: #dcdcdc;
+  --accent: #000000;
+  --accent-deep: #4a4a4a;
+  --accent-pale: #ececec;
+  --grain: rgba(0, 0, 0, 0.05);
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-warm: var(--paper-warm);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-mute: var(--ink-mute);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-pale: var(--accent-pale);
+  --font-sans: var(--font-display);
+  --font-mono: var(--font-cutive);
+  --font-display: var(--font-display), serif;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-display), "Cormorant Garamond", serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* Fine dotted texture over the paper, like print grain */
+.paper-grain {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    var(--grain) 1px,
+    transparent 0
+  );
+  background-size: 22px 22px;
+}
+
+.kicker {
+  font-family: var(--font-cutive), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.headline-emph {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  color: var(--accent);
+}
+
+/*
+ * The logo assets are black-on-transparent. Inverting turns the mark cream
+ * for the dark paper; on light paper the black artwork works as-is.
+ */
+.logo-invert {
+  filter: invert(1);
+}
+
+html.light .logo-invert {
+  filter: none;
+}
+
+.mask-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 1.25rem));
+  }
+}
+
+.animate-marquee {
+  animation: marquee 36s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 0.4;
+  }
+}
+
+.animate-scroll-cue {
+  animation: scroll-cue 2.2s ease-in-out infinite;
+}
+
+/* Underline sweep for nav links */
+.link-sweep {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.35s ease;
+  padding-bottom: 3px;
+}
+
+.link-sweep:hover {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-scroll-cue {
+    animation: none;
+  }
+}
